@@ -1,0 +1,54 @@
+https://github.com/expressjs/multer
+npm init -y
+npm install express dotenv mongoose express-validator multer --save
+
+index.js 
+.env -> PORT=10000
+.gitignore
+
+
+index.js
+to check code is working
+----------------------------
+//Import area
+//const something = require('somelib');
+
+const express = require("express");
+const app = express();
+require("dotenv").config();
+
+let port = process.env.PORT || 4000;
+
+app.listen(port, () => {
+  console.log(`listening on port ${port}`);
+});
+
+
+
+
+const upload = multer({ dest: "uploads/" });
+middle->upload.single("myfile")
+
+
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './uploads')
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+    cb(null, file.fieldname + '-' + uniqueSuffix)
+  }
+})
+
+
+postman
+========
+
+post localhost:4000/fileupload
+
+body>form-data>file>choosefile>send
+
+{
+    "msg": "file upload successfully"
+}
